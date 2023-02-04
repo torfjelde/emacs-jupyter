@@ -284,6 +284,8 @@ to."
         ;; TODO: Handle all of the different macro types for inline results, see
         ;; `org-babel-insert-result'.
         (setq data `(:text/plain ,(plist-get data :text/plain)))
+        ;; NOTE(tor): This is where the magic happens. Could potentially
+        ;; pass the contents of the source block to `jupyter-org-result' here.
         (let ((result (let ((r (jupyter-org-result req data metadata)))
                         (if (stringp r) r
                           (or (org-element-property :value r) "")))))
