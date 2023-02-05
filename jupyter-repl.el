@@ -2039,6 +2039,10 @@ have the same `major-mode' as the client's kernel language and
 
 ;;; Starting a REPL
 
+(defun jupyter--default-repl-name (language-name language-version)
+  "Return a default REPL name for a kernel with LANGUAGE-NAME and LANGUAGE-VERSION."
+  (format "%s %s" language-name language-version))
+
 (cl-defgeneric jupyter-bootstrap-repl ((client jupyter-repl-client)
                                        &optional repl-name associate-buffer display)
   "Initialize a new REPL buffer based on CLIENT, return CLIENT.
@@ -2086,7 +2090,7 @@ completing all of the above.")
                 (generate-new-buffer
                  (format "*jupyter-repl[%s]*"
                          (if (zerop (length repl-name))
-                             (format "%s %s" language-name language-version)
+                             (jupyter--default-repl-name language-name language-version)
                            repl-name))))
           (jupyter-with-repl-buffer client
             (setq-local jupyter-current-client client)
